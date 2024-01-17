@@ -21,8 +21,8 @@ if sys.version_info >= (3, 10):
 else:
     from typing_extensions import TypeGuard  # noqa: F401
 
-
-import inflection
+from caseconverter import camelcase as camelize
+#from inflection import camelize
 import uritemplate
 from django.apps import apps
 from django.db.models.constants import LOOKUP_SEP
@@ -335,7 +335,7 @@ def build_media_type_object(schema, examples=None, encoding=None) -> _SchemaType
 def build_examples_list(examples: Sequence[OpenApiExample]) -> _SchemaType:
     schema = {}
     for example in examples:
-        normalized_name = inflection.camelize(example.name.replace(' ', '_'))
+        normalized_name = camelize(example.name.replace(' ', '_'))
         sub_schema = {}
         if example.value is not empty:
             sub_schema['value'] = example.value
@@ -1207,14 +1207,14 @@ def camelize_operation(path, operation):
     for path_variable in re.findall(r'\{(\w+)\}', path):
         path = path.replace(
             f'{{{path_variable}}}',
-            f'{{{inflection.camelize(path_variable, False)}}}'
+            f'{{{camelize(path_variable, False)}}}'
         )
 
     for parameter in operation.get('parameters', []):
         if parameter['in'] == OpenApiParameter.PATH:
-            parameter['name'] = inflection.camelize(parameter['name'], False)
+            parameter['name'] = camelize(parameter['name'], False)
 
-    operation['operationId'] = inflection.camelize(operation['operationId'], False)
+    operation['operationId'] = camelize(operation['operationId'], False)
 
     return path, operation
 
