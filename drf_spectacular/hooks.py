@@ -1,8 +1,7 @@
 import re
 from collections import defaultdict
 
-#from inflection import camelize
-from caseconverter import camelcase as camelize
+from inflection import camelize
 from rest_framework.settings import api_settings
 
 from drf_spectacular.drainage import warn

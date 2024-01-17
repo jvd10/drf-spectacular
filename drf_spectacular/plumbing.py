@@ -21,8 +21,7 @@ if sys.version_info >= (3, 10):
 else:
     from typing_extensions import TypeGuard  # noqa: F401
 
-from caseconverter import camelcase as camelize
-#from inflection import camelize
+from inflection import camelize
 import uritemplate
 from django.apps import apps
 from django.db.models.constants import LOOKUP_SEP
@@ -335,7 +334,7 @@ def build_media_type_object(schema, examples=None, encoding=None) -> _SchemaType
 def build_examples_list(examples: Sequence[OpenApiExample]) -> _SchemaType:
     schema = {}
     for example in examples:
-        normalized_name = camelize(example.name.replace(' ', '_'))
+        normalized_name = camelize(example.name.replace(' ', '_'), False)
         sub_schema = {}
         if example.value is not empty:
             sub_schema['value'] = example.value
